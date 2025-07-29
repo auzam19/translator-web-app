@@ -36,5 +36,6 @@ def speak():
 if __name__ == '__main__':
     if not os.path.exists(app.config['AUDIO_FOLDER']):
         os.makedirs(app.config['AUDIO_FOLDER'])
-    # Bind to 0.0.0.0 for Railway deployment
-    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    # Fix for Railway — use dynamic port
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
