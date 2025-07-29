@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify
 from translations import translate_text
 from gtts import gTTS
 import os
@@ -36,4 +36,5 @@ def speak():
 if __name__ == '__main__':
     if not os.path.exists(app.config['AUDIO_FOLDER']):
         os.makedirs(app.config['AUDIO_FOLDER'])
-    app.run(debug=True)
+    # Bind to 0.0.0.0 for Railway deployment
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
