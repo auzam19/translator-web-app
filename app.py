@@ -5,7 +5,8 @@ import os
 import uuid
 
 app = Flask(__name__)
-app.config['AUDIO_FOLDER'] = 'static/audio'
+AUDIO_FOLDER = 'static/audio'
+app.config['AUDIO_FOLDER'] = AUDIO_FOLDER
 
 @app.route('/')
 def index():
@@ -29,16 +30,20 @@ def speak():
     if lang not in ['en', 'si']:
         lang = 'en'
 
-    tts = gTTS(text=text, lang=lang)
-    filename = f"{uuid.uuid4().hex}.mp3"
-    filepath = os.path.join(app.config['AUDIO_FOLDER'], filename)
-    tts.save(filepath)
+    try:
+        if not os.path.exists(AUDIO_FOLDER):
+            os.makedirs(AUDIO_FOLDER)
 
-    return jsonify({'audio_path': f"/static/audio/{filename}"})
+        filename = f"{uuid.uuid4().hex}.mp3"
+        filepath = os.path.join(AUDIO_FOLDER, filename)
+
+        tts = gTTS(text=text, lang=lang)
+        tts.save(filepath)
+
+        return jsonify({'audio_path': f"/static/audio/{filename}"})
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
-    if not os.path.exists(app.config['AUDIO_FOLDER']):
-        os.makedirs(app.config['AUDIO_FOLDER'])
-
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)

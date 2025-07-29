@@ -51,7 +51,11 @@ async function playVoiceOutput() {
 
     const data = await response.json();
 
-    const audio = new Audio(data.audio_path);
-    audio.oncanplaythrough = () => audio.play();
-    audio.onerror = () => alert("Audio playback failed. Check if file was generated.");
+    if (data.audio_path) {
+        const audio = new Audio(data.audio_path);
+        audio.oncanplaythrough = () => audio.play();
+        audio.onerror = () => alert("Playback failed. Check if the audio file exists.");
+    } else {
+        alert("Error generating audio: " + (data.error || "Unknown error"));
+    }
 }
