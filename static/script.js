@@ -11,7 +11,6 @@ async function translateText() {
     const data = await response.json();
     document.getElementById("outputText").innerText = data.translated;
 
-    // Save translated text for speech
     window.latestTranslation = {
         text: data.translated,
         lang: targetLang
@@ -20,7 +19,7 @@ async function translateText() {
 
 function startVoiceInput() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US'; // fallback to English
+    recognition.lang = 'en-US';
     recognition.interimResults = false;
 
     recognition.onresult = function(event) {
@@ -51,6 +50,8 @@ async function playVoiceOutput() {
     });
 
     const data = await response.json();
+
     const audio = new Audio(data.audio_path);
-    audio.play();
+    audio.oncanplaythrough = () => audio.play();
+    audio.onerror = () => alert("Audio playback failed. Check if file was generated.");
 }

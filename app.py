@@ -26,6 +26,9 @@ def speak():
     text = data.get('text', '')
     lang = data.get('lang', 'en')
 
+    if lang not in ['en', 'si']:
+        lang = 'en'
+
     tts = gTTS(text=text, lang=lang)
     filename = f"{uuid.uuid4().hex}.mp3"
     filepath = os.path.join(app.config['AUDIO_FOLDER'], filename)
@@ -36,6 +39,6 @@ def speak():
 if __name__ == '__main__':
     if not os.path.exists(app.config['AUDIO_FOLDER']):
         os.makedirs(app.config['AUDIO_FOLDER'])
-    # Fix for Railway — use dynamic port
+
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
