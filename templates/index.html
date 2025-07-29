@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sinhala–English–Singlish Translator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Translator Web App</h1>
+        
+        <textarea id="inputText" placeholder="Type or speak now..."></textarea>
+        
+        <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="si">Sinhala</option>
+        </select>
+
+        <div class="button-group">
+            <button onclick="translateText()">Translate</button>
+            <button onclick="startVoiceInput()">🎤 Speak</button>
+            <button onclick="playVoiceOutput()">🔊 Play Output</button>
+        </div>
+
+        <h2>Translated Text:</h2>
+        <p id="outputText"></p>
+
+        <footer>by: MA Waheed</footer>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
